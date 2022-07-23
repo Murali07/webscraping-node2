@@ -1,18 +1,18 @@
 import express from "express";
 import { MongoClient } from "mongodb";
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 // // import {moviesRouter} from "./routes/movies.js";
-// import cors from "cors";
+import cors from "cors";
 
-// dotenv.config();
+dotenv.config();
 
 const app = express();
 
-// app.use(cors());
+app.use(cors());
 
 const PORT = 5000;
 
-// app.use(express.json());
+app.use(express.json());
 
 // // const MONGO_URL = process.env.MONGO_URL;
 
@@ -104,8 +104,27 @@ app.get('/', function (request, response) {
   response.send('Welcome to My App')
 })
 
-app.get("/mobiles", function(request, response) {
-  response.send(mobiles);
+app.get("/electronics", async function(request, response) {
+
+  // db.electronics.find({})
+
+  const result = await client.db("test").collection("electronics").find({}).toArray();
+  response.send(result);
+})
+
+app.post("/electronics", async function(request, response) {
+
+  const data = request.body;
+  //db.electronics.insertMany(data)
+
+  console.log(data);
+
+  const result = await client
+    .db("test")
+    .collection("electronics")
+    .insertMany(data);
+
+  response.send(result);
 })
 
 
