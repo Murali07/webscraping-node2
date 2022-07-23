@@ -1,5 +1,5 @@
 import express from "express";
-// import { MongoClient } from "mongodb";
+import { MongoClient } from "mongodb";
 // import dotenv from "dotenv";
 // // import {moviesRouter} from "./routes/movies.js";
 // import cors from "cors";
@@ -16,16 +16,16 @@ const PORT = 5000;
 
 // // const MONGO_URL = process.env.MONGO_URL;
 
-// const MONGO_URL = "mongodb://localhost";
+const MONGO_URL = "mongodb://localhost";
 
-// async function createConnection(){
-//   const client = new MongoClient(MONGO_URL);
-//   await client.connect();
-//   console.log("Mongo is connected");
-//   return client;
-// }
+async function createConnection(){
+  const client = new MongoClient(MONGO_URL);
+  await client.connect();
+  console.log("Mongo is connected");
+  return client;
+}
 
-// export const client = await createConnection();
+export const client = await createConnection();
 
 const mobiles = [
   {
