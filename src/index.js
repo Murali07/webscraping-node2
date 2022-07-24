@@ -153,6 +153,19 @@ app.post("/electronics", async function(request, response) {
 })
 
 
+app.put("/electronics/:_id", async function(request, response) {
+
+  const {_id} = request.params;
+  const data = request.body;
+  
+  const result = await client
+  .db("test")
+  .collection("electronics")
+  .updateOne({ _id: _id }, { $set: data });
+
+  response.send(result);
+})
+
 app.delete("/electronics/:_id", async function (request, response) {
   const {_id} = request.params;
   console.log(request.params, _id); 
