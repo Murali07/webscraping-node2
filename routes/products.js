@@ -1,5 +1,4 @@
 import express from "express";
-// import { getAllMovies, getMovieById, deleteMovieById, createMovies, updateMovieById } from "./helper.js";
 import { client } from "../index.js";
 const router = express.Router();
 
