@@ -14,8 +14,6 @@ const PORT = 5000;
 
 app.use(express.json());
 
-console.log(process.env.MONGO_URL);
-
 const MONGO_URL = process.env.MONGO_URL;
 
 // const MONGO_URL = "mongodb://localhost";
