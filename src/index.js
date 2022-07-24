@@ -14,9 +14,11 @@ const PORT = 5000;
 
 app.use(express.json());
 
-// // const MONGO_URL = process.env.MONGO_URL;
+console.log(process.env.MONGO_URL);
 
-const MONGO_URL = "mongodb://localhost";
+const MONGO_URL = process.env.MONGO_URL;
+
+// const MONGO_URL = "mongodb://localhost";
 
 async function createConnection(){
   const client = new MongoClient(MONGO_URL);
@@ -106,11 +108,36 @@ app.get('/', function (request, response) {
 
 app.get("/electronics", async function(request, response) {
 
+  console.log(request.query);
+  
+  // // to convert string to number
+  //   if(request.query.rating){
+  //     request.query.rating = +request.query.rating;
+  //   }
+  //   else if(request.query.price){
+  //     request.query.rating = +request.query.price;
+  //   }
+  //   else if(request.query.final_price){
+  //     request.query.rating = +request.query.final_price;
+  //   }
+
   // db.electronics.find({})
 
-  const result = await client.db("test").collection("electronics").find({}).toArray();
+  const result = await client.db("test").collection("electronics").find(request.query).toArray();
   response.send(result);
 })
+
+app.get("/electronics/:_id", async function (request, response) {
+  const {_id} = request.params;
+  console.log(request.params, _id);   
+
+  const result = await client.db("test").collection("electronics").findOne({ _id: _id });
+  console.log(result);
+
+  result ? response.send(result) : response.send({ msg: "Product not found" });
+  
+});
+
 
 app.post("/electronics", async function(request, response) {
 
@@ -126,6 +153,19 @@ app.post("/electronics", async function(request, response) {
 
   response.send(result);
 })
+
+
+app.delete("/electronics/:_id", async function (request, response) {
+  const {_id} = request.params;
+  console.log(request.params, _id); 
+  
+
+  const result = await client.db("test").collection("electronics").deleteOne({ _id: _id });
+  console.log(result);
+
+  result.deletedCount > 0 ? response.send({msg: "Product Deleted Successfully!"}) : response.send({ msg: "Product not found" });
+  
+});
 
 
 app.listen(PORT, () => console.log(`App started in ${PORT}`));
